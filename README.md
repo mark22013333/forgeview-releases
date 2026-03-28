@@ -15,7 +15,20 @@ macOS 桌面 App，為使用 Claude Code 的開發者打造。統一管理 OpenS
 
 1. 下載 `.dmg` 檔案
 2. 開啟後將 Forgeview 拖入 Applications 資料夾
-3. 首次開啟時，macOS 可能會提示「無法驗證開發者」，前往 **系統設定 → 隱私與安全性** 點擊「仍然開啟」
+3. **首次開啟前，請先執行以下指令**（只需要一次）：
+
+> **⚠️ 重要：macOS 會阻擋未簽名的 App**
+>
+> 由於 Forgeview 尚未取得 Apple 開發者簽名，macOS 會顯示「已損毀，無法打開」。
+> 這不是檔案損壞，而是 macOS 的安全機制（Gatekeeper）。
+>
+> **打開終端機，貼上這行指令即可解決：**
+>
+> ```bash
+> xattr -cr /Applications/Forgeview.app
+> ```
+>
+> 執行後就能正常開啟 Forgeview。此指令只需執行一次。
 
 ## 功能
 
