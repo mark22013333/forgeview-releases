@@ -39,6 +39,34 @@ macOS 桌面應用，為使用 Claude Code 的開發者打造。統一管理 Ope
 
 ## 功能特色
 
+### Hot Reload 系統（v0.8.0 新增）
+- JDK 管理：掃描本機 JDK、登錄 JetBrains Runtime，標示 DCEVM 支援
+- HotswapAgent 下載與路徑設定，進度回報
+- 依 JDK 類型自動組合 JVM 參數（DCEVM allow-unresolved、agent JAR、OPTS env key）
+- 專案 Java target 偵測：解析 pom.xml/build.gradle 推測 compiler release / toolchain
+- 自動挑選最佳 JDK：根據專案 target major 版本對應最相容的 JDK
+- 服務啟動時注入 CATALINA_OPTS / JAVA_TOOL_OPTIONS，偵測 HOTSWAP AGENT 訊息並顯示 reload 次數
+- 設定頁新增 JDK 管理分頁（掃描、新增、移除、驗證、HotswapAgent 下載）
+- ServiceConfigModal 新增 Hot Reload 區段與 JDK 下拉選擇
+
+### 多模組掃描強化（v0.8.0 新增）
+- Maven 多模組專案自動解析 build.finalName 與 exploded WAR 路徑
+
+### 每服務獨立 log buffer（v0.8.0 新增）
+- renderer 端環形緩衝，切換服務不再遺失歷史 log
+
+### 服務重新編譯（v0.8.0 新增）
+- 不停服務直接重跑 compile 指令，配合 Hot Reload 即時生效
+
+### 建置網路診斷（v0.8.0 新增）
+- 識別 Connect timed out / Connection refused / UnknownHostException
+- 識別 Could not HEAD/GET、Unable to load Maven meta-data
+- 識別 SSLHandshakeException / PKIX path / certificate 問題
+- 自動萃取問題 host，Toast 顯示並提供「改用離線模式重試」
+
+### 離線建置勾選（v0.8.0 新增）
+- 服務設定可啟用離線建置（Gradle `--offline` / Maven `-o`）
+
 ### 服務啟動器（v0.7.0 新增）
 - 全新 Services tab，管理 Spring Boot / Maven WAR (Tomcat) / Node.js 等開發伺服器
 - 範本快速建立服務設定、Maven 模組自動掃描
@@ -107,6 +135,18 @@ macOS 桌面應用，為使用 Claude Code 的開發者打造。統一管理 Ope
 - UI 字體與終端機字體分別自訂（系統字體搜尋選擇器 + 即時預覽）
 
 ## 更新日誌
+
+### v0.8.0（2026-04-19）
+- Hot Reload 系統：JDK 管理 + HotswapAgent + DCEVM，即時反映程式碼變更無需重啟服務
+- JDK 管理分頁：掃描本機 JDK、登錄 JetBrains Runtime、標示 DCEVM 支援
+- 自動挑選最佳 JDK：依專案 Java target（pom.xml / build.gradle）對應最相容版本
+- ServiceConfigModal 新增 Hot Reload 區段與 JDK 下拉選擇
+- 多模組掃描強化：Maven 專案自動解析 build.finalName 與 exploded WAR 路徑
+- 每服務獨立 log buffer：切換服務不再遺失歷史 log
+- 服務重新編譯：不停服務直接重跑 compile 指令，配合 Hot Reload 即時生效
+- 建置網路診斷：偵測 Maven/Gradle 連線錯誤並 Toast 提示改用離線模式
+- 離線建置勾選：Gradle 自動加 --offline、Maven 自動加 -o
+- vitest 單元測試框架：test 流程改為「單元測試 → build → e2e」
 
 ### v0.7.0（2026-04-10）
 - 服務啟動器：全新 Services tab，管理 Spring Boot / Maven WAR (Tomcat) / Node.js 等開發伺服器
